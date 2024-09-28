@@ -106,7 +106,7 @@
 					<!--begin:Menu item-->
 					<div class="menu-item">
 						<!--begin:Menu link-->
-						<a class="menu-link {{ request()->routeIs('api-management.list.*') ? 'active' : '' }}" href="{{ route('api-management.list.index') }}">
+						<a class="menu-link {{ request()->routeIs('api-management.*') ? 'active' : '' }}" href="{{ route('api-management.list') }}">
 							<span class="menu-bullet">
 								<span class="bullet bullet-dot"></span>
 							</span>
@@ -150,7 +150,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="https://preview.keenthemes.com/html/metronic/docs/base/utilities" target="_blank">
+				<a class="menu-link" href="#" target="_blank">
 					<span class="menu-icon">{!! getIcon('message-text', 'fs-2') !!}</span>
 					<span class="menu-title">Notifications & Alert</span>
 				</a>
@@ -172,7 +172,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="https://preview.keenthemes.com/html/metronic/docs/base/utilities" target="_blank">
+				<a class="menu-link" href="#" target="_blank">
 					<span class="menu-icon">{!! getIcon('document', 'fs-2') !!}</span>
 					<span class="menu-title">Reports</span>
 				</a>
@@ -182,7 +182,7 @@
 			<!--begin:Menu item-->
 			<div class="menu-item">
 				<!--begin:Menu link-->
-				<a class="menu-link" href="https://preview.keenthemes.com/html/metronic/docs/base/utilities" target="_blank">
+				<a class="menu-link" href="#" target="_blank">
 					<span class="menu-icon">{!! getIcon('search-list', 'fs-2') !!}</span>
 					<span class="menu-title">Access Logs</span>
 				</a>

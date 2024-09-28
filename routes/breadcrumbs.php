@@ -55,5 +55,5 @@ Breadcrumbs::for('user-management.permissions.index', function (BreadcrumbTrail 
 // Home > Dashboard > Api Management
 Breadcrumbs::for('api-management.list', function (BreadcrumbTrail $trail) {
     $trail->parent('dashboard');
-    $trail->push('API Management', route('api-management.list.index'));
+    $trail->push('API Management', route('api-management.list'));
 });

@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UsersSeeder::class,
             RolesPermissionsSeeder::class,
+            ApiEndpointsTableSeeder::class,
+            ApiCallLogsTableSeeder::class,
         ]);
 
         \App\Models\User::factory(20)->create();

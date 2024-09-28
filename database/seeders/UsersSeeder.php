@@ -21,6 +21,12 @@ class UsersSeeder extends Seeder
             'email'             => 'demo@demo.com',
             'password'          => Hash::make('demo'),
             'email_verified_at' => now(),
+            'role' => 'Admin',
+            'status' => 'Active',
+            'last_login' => now()->subDays(1),
+            'api_usage' => 120,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         $demoUser2 = User::create([
@@ -28,6 +34,12 @@ class UsersSeeder extends Seeder
             'email'             => 'admin@demo.com',
             'password'          => Hash::make('demo'),
             'email_verified_at' => now(),
+            'role' => 'User',
+            'status' => 'Inactive',
+            'last_login' => now()->subDays(5),
+            'api_usage' => 50,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }

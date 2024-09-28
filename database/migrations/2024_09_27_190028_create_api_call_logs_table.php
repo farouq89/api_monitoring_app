@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('api_call_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('api_id');
+            $table->unsignedBigInteger('api_id')->nullable();
             $table->string('api_name'); // API Name
             $table->enum('method', ['GET', 'POST', 'PUT', 'DELETE']); // HTTP method
             $table->integer('call_count')->default(0); // Number of calls made to the API

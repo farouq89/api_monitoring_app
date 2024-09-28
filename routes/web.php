@@ -6,7 +6,9 @@ use App\Http\Controllers\Apps\UserManagementController;
 use App\Http\Controllers\Apps\ApiManagementController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Apps\ApiEndpointsController;
 use Illuminate\Support\Facades\Route;
+use App\Livewire\ApiEndpoints;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +20,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -31,10 +37,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('/user-management/permissions', PermissionManagementController::class);
     });
     Route::name('api-management.')->group(function () {
-        Route::resource('/api-management/list', ApiManagementController::class);
+        Route::get('/api-management/list', [ApiEndpointsController::class, 'index'])->name('list');
         //Route::resource('/api-management/roles', RoleManagementController::class);
         //Route::resource('/api-management/permissions', PermissionManagementController::class);
     });
+
+    //Route::get('/api-endpoints', [ApiEndpointsController::class, 'index'])->name('api-endpoints');
 });
 
 Route::get('/error', function () {
