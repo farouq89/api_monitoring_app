@@ -19,6 +19,7 @@
                         <th>URL</th>
                         <th>Method</th>
                         <th>Description</th>
+                        <th>Header</th>
                         <th>Payload Format</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -31,6 +32,23 @@
                         <td>{{ $endpoint->url }}</td>
                         <td>{{ $endpoint->method }}</td>
                         <td>{{ $endpoint->description }}</td>
+                        <td>
+                            @if (is_array($endpoint->headers))
+                            @foreach ($endpoint->headers as $header)
+                            <p>{{ $header['key'] }}: {{ $header['value'] }}</p>
+                            @endforeach
+                            @elseif (is_string($endpoint->headers))
+                            @php
+                            $headersArray = json_decode($endpoint->headers, true);
+                            @endphp
+                            @if (is_array($headersArray))
+                            @foreach ($headersArray as $header)
+                            <p>{{ $header['key'] }}: {{ $header['value'] }}</p>
+                            @endforeach
+                            @endif
+                            @endif
+                        </td>
+
                         <td>{{ $endpoint->payload_format }}</td>
                         <td>
                             @if($endpoint->status)
@@ -127,18 +145,51 @@
                                     @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <!--end::Input group-->
-
-                                <!--begin::Input group - Headers (JSON)-->
                                 <div class="fv-row mb-7">
-                                    <!--begin::Label-->
-                                    <label class="fw-semibold fs-6 mb-2">Headers (JSON)</label>
-                                    <!--end::Label-->
-                                    <!--begin::Input-->
-                                    <textarea wire:model.defer="headers" class="form-control form-control-solid mb-3 mb-lg-0" placeholder='{"Authorization": "Bearer token"}'></textarea>
-                                    <!--end::Input-->
-                                    @error('headers') <span class="text-danger">{{ $message }}</span> @enderror
+                                    <label class="fw-semibold fs-6 mb-2">Headers</label>
+                                    <div id="headers-container">
+                                        @foreach($headers as $index => $header)
+                                        <div class="row mb-3 header-row">
+                                            <div class="col-md-5">
+                                                <label class="form-label">Key</label>
+                                                <input type="text" class="form-control" list="headerKeys" placeholder="Enter header key" wire:model="headers.{{ $index }}.key">
+                                                <!-- Header Key Suggestions -->
+                                                <datalist id="headerKeys">
+                                                    <option value="Authorization">
+                                                    <option value="Content-Type">
+                                                    <option value="Accept">
+                                                    <option value="User-Agent">
+                                                    <option value="Cache-Control">
+                                                </datalist>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <label class="form-label">Value</label>
+                                                <input type="text" class="form-control" list="headerValues" placeholder="Enter header value" wire:model="headers.{{ $index }}.value">
+                                                <datalist id="headerValues">
+                                                    <option value="application/json">
+                                                    <option value="application/xml">
+                                                    <option value="Bearer token">
+                                                    <option value="gzip, deflate">
+                                                </datalist>
+                                            </div>
+                                            <div class="col-md-2 d-flex align-items-end">
+                                                <button type="button" class="btn btn-sm btn-danger" wire:click="removeHeader({{ $index }})">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        @endforeach
+
+
+                                        <!-- Button to add a new header -->
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-sm btn-success" wire:click="addHeader">
+                                                <i class="fas fa-plus"></i> Add Header
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--end::Input group-->
+
 
                                 <!--begin::Input group - Payload Format-->
                                 <div class="fv-row mb-7">
@@ -155,17 +206,37 @@
                                 </div>
                                 <!--end::Input group-->
 
-                                <!--begin::Input group - Parameters (JSON)-->
+                                <!-- Parameters Section -->
                                 <div class="fv-row mb-7">
-                                    <!--begin::Label-->
-                                    <label class="fw-semibold fs-6 mb-2">Parameters (JSON)</label>
-                                    <!--end::Label-->
-                                    <!--begin::Input-->
-                                    <textarea wire:model.defer="parameters" class="form-control form-control-solid mb-3 mb-lg-0" placeholder='{"id": 123, "name": "example"}'></textarea>
-                                    <!--end::Input-->
-                                    @error('parameters') <span class="text-danger">{{ $message }}</span> @enderror
+                                    <label class="fw-semibold fs-6 mb-2">Parameters</label>
+                                    <div id="parameters-container">
+                                        @foreach($parameters as $index => $parameter)
+                                        <div class="row mb-3 parameter-row">
+                                            <div class="col-md-5">
+                                                <label class="form-label">Key</label>
+                                                <input type="text" class="form-control" placeholder="Enter parameter key" wire:model="parameters.{{ $index }}.key">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <label class="form-label">Value</label>
+                                                <input type="text" class="form-control" placeholder="Enter parameter value" wire:model="parameters.{{ $index }}.value">
+                                            </div>
+                                            <div class="col-md-2 d-flex align-items-end">
+                                                <button type="button" class="btn btn-sm btn-danger" wire:click="removeParameter({{ $index }})">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        @endforeach
+
+                                        <!-- Button to add a new parameter -->
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-sm btn-success" wire:click="addParameter">
+                                                <i class="fas fa-plus"></i> Add Parameter
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!--end::Input group-->
+
 
                                 <!--begin::Input group - Status-->
                                 <div class="fv-row mb-7">

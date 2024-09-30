@@ -107,7 +107,43 @@
         });
     </script>
 
+    <script>
+        let headerIndex = 1; // Start from 1 since the first row is hard-coded
 
+        function addHeaderRow() {
+            const container = document.getElementById('headers-container');
+
+            // Create new row for the header key-value
+            const newRow = document.createElement('div');
+            newRow.classList.add('row', 'mb-3', 'header-row');
+            newRow.innerHTML = `
+            <div class="col-md-5">
+                <input type="text" class="form-control" list="headerKeys" placeholder="Enter header key" name="headers[${headerIndex}][key]" wire:model="headers.${headerIndex}.key">
+            </div>
+            <div class="col-md-5">
+                <input type="text" class="form-control" list="headerValues" placeholder="Enter header value" name="headers[${headerIndex}][value]" wire:model="headers.${headerIndex}.value">
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <!-- Remove Button -->
+                <button type="button" class="btn btn-sm btn-danger remove-header-btn" onclick="removeHeaderRow(this)">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        `;
+
+            // Append the new row
+            container.appendChild(newRow);
+
+            // Increment the index for the next header
+            headerIndex++;
+        }
+
+        function removeHeaderRow(button) {
+            // Remove the row that contains the button
+            const row = button.closest('.header-row');
+            row.remove();
+        }
+    </script>
 
 
 
